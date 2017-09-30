@@ -19,18 +19,31 @@ function renderGifs(){
         result= response.data;
         // console.log(result);
 
-        var gifsAppendDiv = $("<div>");
-
         for( var i = 0; i < result.length; i++){
+          var gifsAppendDiv = $("<div>").addClass("divWrapper col-lg-4");
           var gifImage = $("<img>");
+          var ratingP = $("<p>").text(result[i].rating);
           gifImage.attr("src", result[i].images.fixed_height_small_still.url);
-          console.log(gifImage);
+          gifImage.attr("alt", result[i].slug);
+          gifImage.attr("data-state","still" );
+          gifImage.attr("data-animate",result[i].images.fixed_height_small.url );
+          gifImage.attr("data-still",result[i].images.fixed_height_small_still.url );
+          gifImage.addClass("gif");
+          // console.log(gifImage);
           gifsAppendDiv.append(gifImage);
+          gifsAppendDiv.prepend(ratingP);
+
+          $("#imageWrapper").append(gifsAppendDiv);
         }
-        $("#imageWrapper").append(gifsAppendDiv);
       })
-    
     })
+}
+
+function stateChange(){
+$(".gif").on("click","img", function(event){
+      event.preventDefault();
+      alert("connected");
+  })
 }
 
   $( document ).ready(function() {
@@ -56,6 +69,7 @@ function renderGifs(){
       }
       $("#buttonWrapper").append(buttonsDiv);
       renderGifs();
+      stateChange();
     } 
 
     $("#submit-btn").on("click", function(event){
@@ -69,12 +83,9 @@ function renderGifs(){
       renderBtn();
     })
 
-    renderGifs();
+    stateChange();
 
-        
   });
-
-
 
 
 
