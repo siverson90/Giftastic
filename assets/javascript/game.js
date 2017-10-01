@@ -90,6 +90,8 @@ function imageAlert(){
       countriesArr.push(result);
       // console.log(countriesArr);
       renderBtn();
+      $("#countryInput").val("");
+
     })
 
 
