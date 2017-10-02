@@ -22,7 +22,7 @@ function renderGifs(){
         for( var i = 0; i < result.length; i++){
           var gifsAppendDiv = $("<div>").addClass("divWrapper col-lg-4");
           var gifImage = $("<img>");
-          var ratingP = $("<p>").text(result[i].rating);
+          var ratingP = $("<p>").text("Rating: " + result[i].rating);
           gifImage.attr("src", result[i].images.fixed_height_small_still.url);
           gifImage.attr("alt", result[i].slug);
           gifImage.attr("data-state","still" );
