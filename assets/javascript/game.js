@@ -1,39 +1,39 @@
-function renderGifs(){
-  $(".btn-primary").on("click", function(){
+function renderGifsToScreen() {
+  $(".btn-primary").on("click", function() {
       $("#imageWrapper").empty();
 
     var url = "https://api.giphy.com/v1/gifs/search?q="
-    var tag = $(this).val()
-    var key= "&api_key=gPV22XzAeHPfz5eB9bl1Yom9UWYbJXix&limit=10"
+    var userInput = $(this).val()
+    var apiKey = "&api_key=gPV22XzAeHPfz5eB9bl1Yom9UWYbJXix&limit=10"
     
-    var queryURL= url + tag + key;
+    var queryURL = url + userInput + apiKey;
     // console.log(queryURL);
 
     $.ajax({
       url: queryURL,
       method: "GET",
     })
-      .done(function(response){
+      .done(function(response) {
         // console.log(response);
 
-        result= response.data;
-        // console.log(result);
+        resultOfAjaxCall = response.data;
+        // console.log(resultOfAjaxCall);
 
-        for( var i = 0; i < result.length; i++){
-          var gifsAppendDiv = $("<div>").addClass("divWrapper col-lg-4");
+        for(var i = 0; i < resultOfAjaxCall.length; i++) {
+          var gifAndImageContainer = $("<div>").addClass("divWrapper col-lg-4");
           var gifImage = $("<img>");
-          var ratingP = $("<p>").text("Rating: " + result[i].rating);
-          gifImage.attr("src", result[i].images.fixed_height_small_still.url);
-          gifImage.attr("alt", result[i].slug);
+          var ratingP = $("<p>").text("Rating: " + resultOfAjaxCall[i].rating);
+          gifImage.attr("src", resultOfAjaxCall[i].images.fixed_height_small_still.url);
+          gifImage.attr("alt", resultOfAjaxCall[i].slug);
           gifImage.attr("data-state","still" );
-          gifImage.attr("data-animate",result[i].images.fixed_height_small.url );
-          gifImage.attr("data-still",result[i].images.fixed_height_small_still.url );
+          gifImage.attr("data-animate",resultOfAjaxCall[i].images.fixed_height_small.url );
+          gifImage.attr("data-still",resultOfAjaxCall[i].images.fixed_height_small_still.url );
           gifImage.addClass("gif");
           // console.log(gifImage);
-          gifsAppendDiv.append(gifImage);
-          gifsAppendDiv.prepend(ratingP);
+          gifAndImageContainer.append(gifImage);
+          gifAndImageContainer.prepend(ratingP);
 
-          $("#imageWrapper").append(gifsAppendDiv);
+          $("#imageWrapper").append(gifAndImageContainer);
         }
         imageAlert();  
       })  
@@ -42,14 +42,13 @@ function renderGifs(){
 
 function imageAlert(){
   $(".gif").on("click", function(){
-    var state= $(this).attr("data-state");
+    var state = $(this).attr("data-state");
     console.log(state);
 
-    if (state === "still"){
+    if (state === "still") {
       $(this).attr("src", $(this).attr("data-animate"));
       $(this).attr("data-state", "animate");
-    }
-    else{
+    } else {
       $(this).attr("src", $(this).attr("data-still"));
       $(this).attr("data-state", "still");
     }
@@ -58,12 +57,12 @@ function imageAlert(){
 
   $( document ).ready(function() {
     
-    var countriesArr= ["United States","France","Brazil"];
+    var countriesArr = ["United States","France","Brazil"];
     console.log(countriesArr);
     
     renderBtn();
 
-    function renderBtn(){
+    function renderBtn() {
 
       $("#buttonWrapper").empty();
 
@@ -78,26 +77,20 @@ function imageAlert(){
         buttonsDiv.append(newBtn);
       }
       $("#buttonWrapper").append(buttonsDiv);
-      renderGifs();
+      renderGifsToScreen();
     } 
 
     $("#submit-btn").on("click", function(event){
       event.preventDefault();
       // userInputToArr();
-      var result = $("#countryInput").val();
-      // console.log(result);
+      var resultOfAjaxCall = $("#countryInput").val();
+      // console.log(resultOfAjaxCall);
       
-      countriesArr.push(result);
+      countriesArr.push(resultOfAjaxCall);
       // console.log(countriesArr);
       renderBtn();
       $("#countryInput").val("");
-
     })
 
-
   });
-
-
-
-
 
